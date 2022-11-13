@@ -10,20 +10,35 @@ function setup() {
 	canvas.parent("canvas");
 	video.hide();
 }
-function draw() {
+function draw(){
 	image(video, 0, 0);
-	if(statusa==true){
-		objects.forEach((value)=>{
-			percent = value.confidence * 100;
-
-		});
+		objectValue = document.querySelector("#Object-to-find").value;
+		objectDetector.detect(video, gotResult);
+	if (statusa == true) {
+		for (let i = 0; i < objects.length; i++) {
+			colorVariable = "#ff0000";
+			$("#status").textContent = "Status: Object Detected";
+			if(objects[i] == document.querySelector("#Object-to-find").value){
+				colorVariable = "#FABD2F";
+			}
+			fill(colorVariable);
+			let percent = floor(objects[i].confidence * 100);
+			text(
+				`${objects[i].label} ${percent}%`,
+				objects[i].x + 15,
+				objects[i].y + 15
+			);
+			noFill();
+			stroke(colorVariable);
+			rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+		}
 	}
 }
 function start() {
-	const objectDetector = ml5.objectDetector("cocossd", {}, modelLoaded);
-	objectValue = document.querySelector("#Object-to-find").value;
+	globalThis.objectDetector = ml5.objectDetector("cocossd", modelLoaded);
 	document.querySelector("#objects").innerHTML = "Status: Detecting Objects";
 }
+
 
 function modelLoaded() {
 	console.log("Model Loaded");
