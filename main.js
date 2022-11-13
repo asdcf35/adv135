@@ -1,7 +1,8 @@
 //@ts-nocheck
 statusa = "";
-let objects = [];
+let ojects = [];
 function gotResult(results) {
+	console.log(results);
 	objects = results;
 }
 function setup() {
@@ -10,15 +11,15 @@ function setup() {
 	canvas.parent("canvas");
 	video.hide();
 }
-function draw(){
+function draw() {
 	image(video, 0, 0);
-		objectValue = document.querySelector("#Object-to-find").value;
-		objectDetector.detect(video, gotResult);
+	objectValue = document.querySelector("#Object-to-find").value;
 	if (statusa == true) {
-		for (let i = 0; i < objects.length; i++) {
+	objectDetector.detect(video, gotResult);
+		for (let i = 0; i < objects?.length; i++) {
 			colorVariable = "#ff0000";
 			$("#status").textContent = "Status: Object Detected";
-			if(objects[i] == document.querySelector("#Object-to-find").value){
+			if (objects[i] == document.querySelector("#Object-to-find").value) {
 				colorVariable = "#FABD2F";
 			}
 			fill(colorVariable);
@@ -37,8 +38,8 @@ function draw(){
 function start() {
 	globalThis.objectDetector = ml5.objectDetector("cocossd", modelLoaded);
 	document.querySelector("#objects").innerHTML = "Status: Detecting Objects";
+	statusa = true;
 }
-
 
 function modelLoaded() {
 	console.log("Model Loaded");
